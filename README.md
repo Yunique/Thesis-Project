@@ -1,8 +1,8 @@
-## Hexlet-chat
+## Chat-App
 > This is my thesis project.
 
 ## Overview
-Hexlet-chat is a simple real-time chat application.
+Based on hexlet-chat, this is a simple real-time chat application.
 
 ## Features
 - Registration and authorization. The project has a small server that supports [JWT](https://jwt.io/) technology.
