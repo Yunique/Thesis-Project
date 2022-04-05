@@ -24,7 +24,7 @@ Based on hexlet-chat, this is a simple real-time chat application.
 
 ## App link
 ```sh
-TBA
+https://yunik-thesis-project.herokuapp.com/
 ```
 
 ## Locally
