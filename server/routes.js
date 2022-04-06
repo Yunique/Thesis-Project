@@ -121,6 +121,12 @@ export default (app, defaultState = {}) => {
       .send({ token, username });
   });
 
+  app.get('/api/v1/name', { preValidation: [app.authenticate] }, (_req, reply) => {
+    reply
+      .header('Content-Type', 'application/json; charset=utf-8')
+      .send(state);
+  });
+
   app.get('/api/v1/data', { preValidation: [app.authenticate] }, (req, reply) => {
     const user = state.users.find(({ id }) => id === req.user.userId);
 

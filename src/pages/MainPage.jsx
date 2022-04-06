@@ -27,6 +27,8 @@ const MainPage = () => {
     let isActive = true;
     const fetchData = async () => {
       const { data } = await axios.get(routes.usersPath(), { headers });
+      const lele = await axios.get(routes.py(), { headers });
+      console.log(lele);
       if (isActive) {
         dispatch(getData(data));
       }
