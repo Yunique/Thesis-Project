@@ -10,6 +10,6 @@ export default {
   loginPath: () => [host, prefix, 'login'].join('/'),
   signUpPath: () => [host, prefix, 'signup'].join('/'),
   usersPath: () => [host, prefix, 'data'].join('/'),
-  py: () => [host, prefix, 'name'].join('/'),
+  metrics: () => [host, prefix, 'metrics'].join('/'),
 
 };

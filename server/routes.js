@@ -2,6 +2,7 @@
 
 import _ from 'lodash';
 import HttpErrors from 'http-errors';
+import { spawn } from 'child_process';
 
 const { Unauthorized, Conflict } = HttpErrors;
 
@@ -121,10 +122,28 @@ export default (app, defaultState = {}) => {
       .send({ token, username });
   });
 
-  app.get('/api/v1/name', { preValidation: [app.authenticate] }, (_req, reply) => {
-    reply
-      .header('Content-Type', 'application/json; charset=utf-8')
-      .send(state);
+  app.get('/api/v1/metrics', { preValidation: [app.authenticate] }, (req, reply) => {
+    const info = {
+      metrics: [],
+    };
+    const process = spawn('python3', ['server/ai.py', req.query.employeeId]);
+    // 1 arg - employee name
+    // 2 arg - options
+    process.stdout.on('data', (data) => {
+      console.log('Pipe data from python script ...');
+      info.metrics = data;
+    });
+
+    process.stderr.on('data', (data) => {
+      console.error(`stderr: ${data}`);
+    });
+
+    process.on('close', (code) => {
+      console.log(`child process close all stdio with code ${code}`);
+      reply
+        .header('Content-Type', 'application/json; charset=utf-8')
+        .send(info.metrics);
+    });
   });
 
   app.get('/api/v1/data', { preValidation: [app.authenticate] }, (req, reply) => {
