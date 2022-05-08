@@ -13,6 +13,7 @@ import { AuthProvider } from './providers';
 import { useAuth } from './hooks';
 import {
   MainPage,
+  Metrics,
   Login,
   Page404,
   SignUp,
@@ -24,6 +25,11 @@ const PrivateRoute = () => {
   return auth.loggedIn ? <Outlet /> : <Navigate to="/login" />;
 };
 
+const AdminPrivateRoute = () => {
+  const auth = useAuth();
+  return (auth.loggedIn && auth.userName === 'admin') ? <Outlet /> : <Navigate to="/oops" />;
+};
+
 const App = () => (
   <AuthProvider>
     <Router>
@@ -32,6 +38,9 @@ const App = () => (
         <Routes>
           <Route path="/" element={<PrivateRoute />}>
             <Route path="/" element={<MainPage />} />
+          </Route>
+          <Route path="/metrics" element={<AdminPrivateRoute />}>
+            <Route path="/metrics" element={<Metrics />} />
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />

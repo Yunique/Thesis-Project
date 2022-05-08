@@ -1,5 +1,3 @@
-// @ts-check
-
 import React from 'react';
 import { Provider } from 'react-redux';
 import 'core-js/stable/index.js';

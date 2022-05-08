@@ -126,12 +126,12 @@ export default (app, defaultState = {}) => {
     const info = {
       metrics: [],
     };
-    const process = spawn('python3', ['server/ai.py', req.query.employeeId]);
+    const process = spawn('python3', ['server/ai.py', JSON.stringify(state.messages)]);
     // 1 arg - employee name
     // 2 arg - options
     process.stdout.on('data', (data) => {
       console.log('Pipe data from python script ...');
-      info.metrics = data;
+      info.metrics = data.toString();
     });
 
     process.stderr.on('data', (data) => {
@@ -140,9 +140,9 @@ export default (app, defaultState = {}) => {
 
     process.on('close', (code) => {
       console.log(`child process close all stdio with code ${code}`);
+      console.log(info.metrics);
       reply
-        .header('Content-Type', 'application/json; charset=utf-8')
-        .send(info.metrics);
+        .send('Something here'); // { info: info.metrics }
     });
   });
 
