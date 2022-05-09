@@ -3,7 +3,6 @@ import { authContext } from '../context/index.js';
 
 const AuthProvider = ({ children }) => {
   const currentUser = JSON.parse(localStorage.getItem('user'));
-  console.log(currentUser);
   const token = currentUser ? currentUser.token : null;
   const [userName, setUserName] = useState(currentUser ? currentUser.username : null);
 
