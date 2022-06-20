@@ -126,7 +126,8 @@ export default (app, defaultState = {}) => {
     const info = {
       metrics: [],
     };
-    const process = spawn('python3', ['server/ai.py', JSON.stringify(state.messages)]);
+    const users = state.users.map((user) => user.username);
+    const process = spawn('python3', ['server/ai.py', JSON.stringify(state.messages), req.query['keywords[]'], users]);
     // 1 arg - employee name
     // 2 arg - options
     process.stdout.on('data', (data) => {
@@ -140,9 +141,9 @@ export default (app, defaultState = {}) => {
 
     process.on('close', (code) => {
       console.log(`child process close all stdio with code ${code}`);
-      console.log(info.metrics);
+      console.log(info.metrics.length);
       reply
-        .send('Something here'); // { info: info.metrics }
+        .send(info.metrics); // { info: info.metrics }
     });
   });
 
